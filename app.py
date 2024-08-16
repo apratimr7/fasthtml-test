@@ -3,33 +3,63 @@ import pathlib as path
 # import json as
 
 js = path.Path()
-app, rt = fast_app(live=True)
+script = Script("""
+{
+    "imports": {
+       "three": 
+    "https://cdn.jsdelivr.net/npm/three@0.167.1/build/three.module.js",
+      "three/addons/": 
+    "https://cdn.jsdelivr.net/npm/three@0.167.1/examples/jsm/"
+            }
+}""" , type="importmap")
+head = Head(
+            Meta(charset="UTF-8"),
+            Meta(name="viewport", content="width=device-width, initial-scale=1.0"),
+            Link(rel="stylesheet", href="styles.css"),
+            Title("My App"),script
+            )
+app, rt = fast_app(live=True,hdrs=(head))
 
-@rt("/")
+@rt("/about")
 def get():
     return Html(
-        Head(
-            Title("My App"),
-            Link(rel="stylesheet", href="styles.css"),
-            Link(rel="stylesheet", href='https://fonts.googleapis.com/css?family=Poppins')
-            ),
+        # Head(
+        #     Title("My App"),
+        #     Link(rel="stylesheet", href="styles.css"),
+        #     Link(rel="stylesheet", href='https://fonts.googleapis.com/css?family=Poppins')
+        #     ),
         Body(H1("Apratim Rastogi"),
-            Div('Some Text', A('A test link',href="/test"))
+             P("This is a simple web app"),
+             P("Made with FastHTML"),
+             P("Check out my home page"),
+            A('Home',href="/")
         )
     )
 
-@rt("/test")
+@rt("/contact")
 def get():
     return Html(
         Head(Title("My App"),Link(rel="stylesheet", href="styles.css")),
         Body(H1("Apratim Rastogi"),
-            Div('Some Text', A('Succesfull link',href="/")),
-            Div("You can visit a different page"),A("Here",href="/diftest")
+            Div('Feel free to contact at ?', A('Home',href="/")),
+            Div("You can look at my projects"),A("Projects",href="/projects")
         )
     )
 
-@app.get("/diftest")
-def test():
+@rt("/projects")
+def get():
+    return Html(
+        Head(Title("My App"),Link(rel="stylesheet", href="styles.css")),
+        Body(H1("Apratim Rastogi"),
+            Div('Here are my projects',  A('Home',href="/")),
+            Div("You can visit my contact page"),A("Contact",href="/contact")
+        )
+    )
+
+
+# @app.get("/diftest")
+@rt("/")
+def get():
     # Add a Three.js script tag
     script = Script("""
 {
@@ -55,9 +85,9 @@ def test():
         ),
         Nav(
             Ul(
-                Li(A("About", href="#about")),
-                Li(A("Projects", href="#projects")),
-                Li(A("Contact", href="#contact")),
+                Li(A("About", href="/about")),
+                Li(A("Projects", href="/projects")),
+                Li(A("Contact", href="/contact")),
                 Class="nav-links"
             ),
             Class="nav"
