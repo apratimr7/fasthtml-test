@@ -3,22 +3,22 @@ import pathlib as path
 # import json as
 
 js = path.Path()
-script = Script("""
-{
-    "imports": {
-       "three": 
-    "https://cdn.jsdelivr.net/npm/three@0.167.1/build/three.module.js",
-      "three/addons/": 
-    "https://cdn.jsdelivr.net/npm/three@0.167.1/examples/jsm/"
-            }
-}""" , type="importmap")
-head = Head(
-            Meta(charset="UTF-8"),
-            Meta(name="viewport", content="width=device-width, initial-scale=1.0"),
-            Link(rel="stylesheet", href="styles.css"),
-            Title("My App"),script
-            )
-app, rt = fast_app(live=True,hdrs=(head))
+# script = Script("""
+# {
+#     "imports": {
+#        "three": 
+#     "https://cdn.jsdelivr.net/npm/three@0.167.1/build/three.module.js",
+#       "three/addons/": 
+#     "https://cdn.jsdelivr.net/npm/three@0.167.1/examples/jsm/"
+#             }
+# }""" , type="importmap")
+# head = Head(
+#             Meta(charset="UTF-8"),
+#             Meta(name="viewport", content="width=device-width, initial-scale=1.0"),
+#             Link(rel="stylesheet", href="styles.css"),
+#             Title("My App"),script
+#             )
+app, rt = fast_app(live=True)
 
 @rt("/about")
 def get():
@@ -72,7 +72,7 @@ def get():
 }""" , type="importmap")
 
     # Add a script to create the 3D animation
-    animation_script = Script(type="module", src = "js/wormhole.js")
+    animation_script = Script(type="module", src = "js/threejs_app.js")
 
     # Add a canvas element to render the 3D animation
     canvas = Canvas(id="background-canvas")
